@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+{% block content %}
+<ul>{% for option in data.choice_set.all %}
+<li>
+<div>{{option.choice_text}}</div>
+<span>votes: {{option.votes}}</span>
+</li>
+{% endfor %}</ul>
+
+<div id="myChart"></div>
+
+<script src="https://cdn.zingchart.com/zingchart.min.js"></script>
+
+  <script>
+
+let dataDjango = "{{data.id}}"
+const retrieveData = async ()=>{
+    const dato = await fetch(`http://localhost:8000/chart/${dataDjango}`)
+    const dataReady = await dato.json()
+    return dataReady
+}
+
+const state = {
+    numeros: [],
+    texto: []
+}
+let chartData = {
+    type: "bar",
+    scaleX:{
+        values: state.texto
+    },
+    series: [
+    {
+        values: state.numeros
+    }]
+}
+
+{% comment %} .then(item=>{
+    item.forEach(it=>{
+        state.numeros.push(it.choice_votes)
+        state.texto.push(it.choice_txt)
+    })
+})
+.then(()=>{
+zingchart.render({
+    id: 'myChart',
+    data: chartData
+  });
+}) {% endcomment %}
+const createData =(series)=>{
+    series.forEach(it=>{
+        state.numeros.push(it.choice_votes)
+        state.texto.push(it.choice_txt)
+    })
+}
+const createChart =()=>{
+    zingchart.render({
+    id: 'myChart',
+    data: chartData
+  });
+}
+
+const app = async ()=>{
+    try{
+    let datos = await retrieveData()
+    createData(datos)
+    createChart()
+    }
+    catch(err){
+        console.log(err)
+    }
+   
+}  
+
+app()
+
+
+
+  </script>
+{% endblock %}
+

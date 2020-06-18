@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block content %}
+<ul>{% for option in data.choice_set.all %}
+<li>
+<form method="post" action="/{{data.id}}/addVote/{{option.id}}">{% csrf_token %}
+<div>{{option.choice_text}}</div>
+<button type="submit">vote</button>
+</form>
+</li>
+
+{% endfor %}</ul>
+<form method="get" action="/mama">
+<button type="submit">go back</button>
+</form>
+<a href="/{{data.id}}/results">See Results</a>
+{% endblock %}
+
+{% comment %} <form method="post" action="/{{data.id}}/addVote/{{option.id}}"> 
+is the same as <form method="post" action="addVote/{{option.id}}"> 
+both are the same, and in our case retrieve correct route.
+
+this <form method="post" action="{{data.id}}/addVote/{{option.id}}"> 
+is the same as "localhost/1/1/addvote/1" (will give error)
+
+this <form method="post" action="/addVote/{{option.id}}"> 
+is the same as  "localhost/addVote/1" (will give error)
+{% endcomment %}

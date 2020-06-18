@@ -1,0 +1,15 @@
+{% extends "base.html" %} 
+
+{% block content %}
+Poll App
+{% if dataPoll%}
+<ul style="margin-top: 5rem">{% for option in dataPoll%}
+<li>{{ option.question_text }}</li>
+<a href="/{{option.id}}/details" style="display: block">details</a>
+<a href="/{{option.id}}/results">results</a>
+{% endfor %}
+</ul>
+{% else %}
+<p>No polls yet</p>
+{% endif %}
+{% endblock %}
