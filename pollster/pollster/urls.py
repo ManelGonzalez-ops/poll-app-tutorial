@@ -19,7 +19,7 @@ from polls.views import mama, toDetails, toResults, toVote, getChart
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('mama/', mama),
+    path('', mama),
     path("<int:question_id>/details", toDetails),
     path("<int:question_id>/results", toResults),
     path("<int:question_id>/addVote/<int:choice_id>", toVote),
